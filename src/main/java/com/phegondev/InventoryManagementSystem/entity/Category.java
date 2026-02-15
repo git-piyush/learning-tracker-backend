@@ -27,6 +27,8 @@ public class Category {
 
     private String category;
 
+    private String subCategory;
+
     @NotBlank(message = "RefCode is required")
     @Column(unique = true)
     private String refCode;

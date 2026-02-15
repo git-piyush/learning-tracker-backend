@@ -26,7 +26,9 @@ public class QuestionServiceImpl implements QuestionService {
     public Response saveQuestion(Question question, MultipartFile file) throws IOException {
 
         question.setUser(userUtility.getLoggedInUser());
-        question.setImage(file.getBytes());
+        if(file!=null){
+            question.setImage(file.getBytes());
+        }
         questionRepository.save(question);
         return Response.builder()
                 .status(200)

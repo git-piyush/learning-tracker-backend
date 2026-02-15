@@ -34,6 +34,10 @@ public class Response {
     private List<CategoryDTO> categories;
     private List<String> categoryList;
     private Map<String,String> catMap;
+    private Map<String,Long> categoryCount;
+    private List<String> subCategoryList;
+
+    private DashboardResponseDTO DashboardResponse;
 
     //data output optional
     private UserDTO user;

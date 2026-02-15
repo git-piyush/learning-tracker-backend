@@ -120,11 +120,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<String> getAllCategoryList() {
-
+        System.out.println("getAllCategoryList1");
         List<Category> categoryList = categoryRepository.findAll();
-
         List<String> catList = categoryList.stream()
-                .map(cat -> cat.getCategory())
+                .map(cat -> cat.getCategory()).distinct()
                 .collect(Collectors.toList());
 
         return catList;
@@ -132,13 +131,37 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Map<String, String> getCategoryByCategory(String category) {
-
+        System.out.println("getCategoryByCategory");
         List<Category> catList = categoryRepository.findByCategory(category);
+
         return catList.stream()
                 .collect(Collectors.toMap(
                         Category::getRefCode,
                         Category::getRefCodeLongName
                 ));
 
+    }
+
+    @Override
+    public Map<String, Long> getCategoryCount() {
+        List<Category> catList = categoryRepository.findAll();
+        Map<String, Long> catCountMap = catList.stream()
+                .collect(Collectors.groupingBy(
+                        Category::getRefCodeLongName,   // key: the field
+                        Collectors.counting()           // value: how many times it appears
+                ));
+
+        return catCountMap;
+    }
+
+    @Override
+    public List<String> getSubCategory(String cat) {
+
+       List<Category> catList = categoryRepository.findByCategory(cat);
+        List<String> catList1 = catList.stream()
+                .map(cat1 -> cat1.getSubCategory()).distinct()
+                .collect(Collectors.toList());
+
+        return catList1;
     }
 }

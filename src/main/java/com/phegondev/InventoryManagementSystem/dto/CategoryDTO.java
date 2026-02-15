@@ -24,6 +24,8 @@ public class CategoryDTO {
 
     private String category;
 
+    private String subCategory;
+
     private Long refCodeOrder;
 
     private String active;

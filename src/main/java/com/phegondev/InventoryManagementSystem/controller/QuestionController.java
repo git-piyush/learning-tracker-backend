@@ -24,15 +24,15 @@ public class QuestionController {
     private QuestionService questionService;
 
     @PostMapping("/add-question")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Response> saveQuestion(
             @RequestParam("category") String  category,
+            @RequestParam("subCategory") String  subCategory,
             @RequestParam("type") String  type,
             @RequestParam("question") String  question,
             @RequestParam("answer") String  answer,
             @RequestParam("bookmark") String  bookmark,
             @RequestParam("level") String  level,
-            @RequestParam("imageFile") MultipartFile imageFile
+            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile
     ) throws IOException {
         Question question1 = new Question();
         question1.setCategory(category);
@@ -41,11 +41,11 @@ public class QuestionController {
         question1.setAnswer(answer);
         question1.setBookmark(bookmark);
         question1.setLevel(level);
+        question1.setSubCategory(subCategory);
         return ResponseEntity.ok(questionService.saveQuestion(question1, imageFile));
     }
 
     @GetMapping("/get-question/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Response> getQuestionById(@PathVariable Long id){
         Question question = questionService.getQuestionById(id);
         return ResponseEntity.ok(Response.builder()
@@ -56,7 +56,6 @@ public class QuestionController {
     }
 
     @GetMapping("/getall-question")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Response> getQuestions(){
         List<Question> questionList = questionService.getAllQuestion();
         return ResponseEntity.ok(Response.builder()

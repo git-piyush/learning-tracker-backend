@@ -27,6 +27,8 @@ public class Question {
 
     private String category;
 
+    private String subCategory;
+
     private String type;
 
     @NotBlank(message = "Name is required")

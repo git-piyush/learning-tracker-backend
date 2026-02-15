@@ -52,7 +52,6 @@ public class CategoryController {
     public ResponseEntity<Response> getAllCategoryList(){
 
         List<String> categoryList =  categoryService.getAllCategoryList();
-
         return ResponseEntity.ok(Response.builder()
                 .status(200)
                 .message("success")
@@ -79,6 +78,25 @@ public class CategoryController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Response> deleteCategory(@PathVariable Long id) {
         return ResponseEntity.ok(categoryService.deleteCategory(id));
+    }
+
+    @GetMapping("/category-count")
+    public ResponseEntity<Response> getCategoryCount() {
+        return ResponseEntity.ok(Response.builder()
+                .status(200)
+                .message("success")
+                .categoryCount(categoryService.getCategoryCount())
+                .build());
+    }
+
+    @GetMapping("/getsubcategory-map/{cat}")
+    public ResponseEntity<Response> getSubCategoryMap(@PathVariable String cat) {
+
+        return ResponseEntity.ok(Response.builder()
+                .status(200)
+                .message("success")
+                .subCategoryList(categoryService.getSubCategory(cat))
+                .build());
     }
 
 

@@ -1,0 +1,5 @@
+CREATE OR REPLACE VIEW public.vw_dashboard (id, totalQuestions) AS
+SELECT
+    1 AS id,                -- always 1 since only one row
+    COUNT(*) AS totalQuestions
+FROM public.tbl_question;
