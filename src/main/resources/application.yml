@@ -2,16 +2,16 @@ spring:
   application:
     name: InventoryManagementSystem
 
-  datasource:
-    url: jdbc:postgresql://localhost:5432/studytracker
-    username: postgres
-    password: root
-    driver-class-name: org.postgresql.Driver
 #  datasource:
-#   url: jdbc:postgresql://ep-restless-mountain-a8dje1pl-pooler.eastus2.azure.neon.tech:5432/neondb?sslmode=require
-#   username: neondb_owner
-#   password: npg_hiYq4uOWeZo2
-#   driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:5432/studytracker
+#    username: postgres
+#    password: root
+#    driver-class-name: org.postgresql.Driver
+  datasource:
+   url: jdbc:postgresql://ep-restless-mountain-a8dje1pl-pooler.eastus2.azure.neon.tech:5432/neondb?sslmode=require
+   username: neondb_owner
+   password: npg_hiYq4uOWeZo2
+   driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
