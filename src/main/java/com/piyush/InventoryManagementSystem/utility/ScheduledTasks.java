@@ -13,7 +13,7 @@ public class ScheduledTasks {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @Scheduled(fixedRate = 4 * 60 * 1000) // 10 minutes in milliseconds
+    //@Scheduled(fixedRate = 4 * 60 * 1000) // 10 minutes in milliseconds
     public void runEveryTenMinutes() {
         System.out.println("Task executed at: " + LocalDateTime.now());
         System.out.println("Keep my db and render awake, since i am using free tier");

@@ -43,6 +43,8 @@ public class Response {
     private UserDTO user;
     private List<UserDTO> users;
 
+    private String userName;
+
     private Question question;
     private List<Question> questionList;
 

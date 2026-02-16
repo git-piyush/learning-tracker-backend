@@ -3,6 +3,7 @@ package com.piyush.InventoryManagementSystem.controller;
 import com.piyush.InventoryManagementSystem.dto.Response;
 import com.piyush.InventoryManagementSystem.entity.Question;
 import com.piyush.InventoryManagementSystem.service.QuestionService;
+import com.piyush.InventoryManagementSystem.utility.UserUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class QuestionController {
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    private UserUtility utility;
 
     @PostMapping("/add-question")
     public ResponseEntity<Response> saveQuestion(
@@ -54,9 +58,10 @@ public class QuestionController {
                 .build());
     }
 
+    //
     @GetMapping("/getall-question")
     public ResponseEntity<Response> getQuestions(){
-        List<Question> questionList = questionService.getAllQuestion();
+        List<Question> questionList = questionService.getAllUserQuestion(utility.getLoggedInUser().getEmail());
         return ResponseEntity.ok(Response.builder()
                 .status(200)
                 .questionList(questionList)

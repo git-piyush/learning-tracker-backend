@@ -12,7 +12,7 @@ import java.util.List;
 public interface QuestionService {
     Response saveQuestion(Question question, MultipartFile file) throws IOException;
     Response updateQuestion(Question question);
-    List<Question> getAllQuestion();
+    List<Question> getAllUserQuestion(String userEmail);
     Question getQuestionById(Long id);
     Response deleteQuestion(Long id);
 }

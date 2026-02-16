@@ -42,8 +42,10 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> getAllQuestion() {
-        return questionRepository.findAll();
+    public List<Question> getAllUserQuestion(String userEmail) {
+        List<Question> list = questionRepository.findAll();
+       list= list.stream().filter(l->l.getCreatedBy().equalsIgnoreCase(userEmail)).toList();
+        return list;
     }
 
     @Override
