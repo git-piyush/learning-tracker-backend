@@ -2,10 +2,13 @@ package com.piyush.InventoryManagementSystem.service.impl;
 
 import com.piyush.InventoryManagementSystem.dto.DashboardResponseDTO;
 import com.piyush.InventoryManagementSystem.entity.Dashboard;
+import com.piyush.InventoryManagementSystem.entity.FeedBackDetails;
 import com.piyush.InventoryManagementSystem.entity.Question;
 import com.piyush.InventoryManagementSystem.repository.DashboardRepository;
 import com.piyush.InventoryManagementSystem.repository.QuestionRepository;
 import com.piyush.InventoryManagementSystem.service.DashboardService;
+import com.piyush.InventoryManagementSystem.service.FeedBackService;
+import com.piyush.InventoryManagementSystem.service.FeedbackDetailsService;
 import com.piyush.InventoryManagementSystem.utility.UserUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,12 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Autowired
     private QuestionRepository questionRepository;
+
+    @Autowired
+    private FeedBackService feedBackService;
+
+    @Autowired
+    private FeedbackDetailsService feedbackDetailsService;
 
     @Autowired
     private UserUtility utility;
@@ -42,12 +51,13 @@ public class DashboardServiceImpl implements DashboardService {
                         Collectors.counting()       // value = count of each subCategory
                 ));
 
-
+        List<FeedBackDetails> feedBackDetailsList = feedbackDetailsService.getUnreadFeedbackByUser(utility.getLoggedInUser().getId());
+        Long unreadCount = (long) feedBackDetailsList.size();
         DashboardResponseDTO dashboardResponseDTO = new DashboardResponseDTO(dashboard.getId(),
                 dashboard.getTotalquestions(),
                 questionCount,
                 bookMarked,
-                countMap);
+                countMap,unreadCount);
 
         return dashboardResponseDTO;
     }

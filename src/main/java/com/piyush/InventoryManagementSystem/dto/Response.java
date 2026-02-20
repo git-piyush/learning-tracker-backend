@@ -1,10 +1,13 @@
 package com.piyush.InventoryManagementSystem.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.piyush.InventoryManagementSystem.entity.FeedBackDetails;
 import com.piyush.InventoryManagementSystem.entity.Question;
 import com.piyush.InventoryManagementSystem.enums.UserRole;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +15,8 @@ import java.util.Map;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Response {
     //generic
@@ -47,6 +52,10 @@ public class Response {
 
     private Question question;
     private List<Question> questionList;
+
+    private List<FeedbackResponse> feedbackResponse;
+
+    private List<FeedBackDetails> feedBackDetails;
 
     private LocalDateTime timestamp = LocalDateTime.now();
 
