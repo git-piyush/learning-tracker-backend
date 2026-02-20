@@ -6,15 +6,20 @@ FROM public.tbl_question;
 
 
 
-SELECT
-    f.id,
+-- public.vw_feedback_details source
+
+CREATE OR REPLACE VIEW public.vw_feedback_details
+AS SELECT f.id,
     f.created_at,
     f.created_by,
     f.message,
     f.rating,
     fr.read_at,
-    fr.user_id AS read_user_id
-FROM feedback f
-LEFT JOIN feedback_read fr
-    ON f.id = fr.feedback_id
-ORDER BY f.id asc;
+    fr.user_id AS read_user_id,
+        CASE
+            WHEN fr.user_id IS NOT NULL THEN 'Y'::text
+            ELSE 'N'::text
+        END AS seen
+   FROM feedback f
+     LEFT JOIN feedback_read fr ON f.id = fr.feedback_id
+  ORDER BY f.id;
