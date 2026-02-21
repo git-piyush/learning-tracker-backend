@@ -4,16 +4,27 @@ import com.piyush.InventoryManagementSystem.dto.CategoryDTO;
 import com.piyush.InventoryManagementSystem.dto.Response;
 import com.piyush.InventoryManagementSystem.entity.Category;
 import com.piyush.InventoryManagementSystem.entity.FeedBackDetails;
+import com.piyush.InventoryManagementSystem.entity.Feedback;
+import com.piyush.InventoryManagementSystem.entity.FeedbackRead;
 import com.piyush.InventoryManagementSystem.repository.FeedbackDetailsRepository;
+import com.piyush.InventoryManagementSystem.repository.FeedbackReadRepository;
+import com.piyush.InventoryManagementSystem.repository.FeedbackRepository;
+import com.piyush.InventoryManagementSystem.service.FeedBackService;
 import com.piyush.InventoryManagementSystem.service.FeedbackDetailsService;
+import com.piyush.InventoryManagementSystem.utility.UserUtility;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.swing.text.Utilities;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +34,15 @@ public class FeedBackDetailsServiceImpl implements FeedbackDetailsService {
 
     @Autowired
     private FeedbackDetailsRepository feedbackDetailsRepository;
+
+    @Autowired
+    private FeedbackRepository feedbackRepository;
+
+    @Autowired
+    private FeedbackReadRepository feedbackReadRepository;
+
+    @Autowired
+    private UserUtility utilities;
 
     @Override
     public List<FeedBackDetails> getUnreadFeedbackByUser(Long userId) {
@@ -49,10 +69,6 @@ public class FeedBackDetailsServiceImpl implements FeedbackDetailsService {
                 );
 
         List<FeedBackDetails> feedBackDetailsList = page1.getContent();
-
-
-       // List<CategoryDTO> categoryDTOS = modelMapper.map(categories, new TypeToken<List<CategoryDTO>>() {}.getType());
-
         return Response.builder()
                 .status(200)
                 .message("success")
@@ -63,5 +79,32 @@ public class FeedBackDetailsServiceImpl implements FeedbackDetailsService {
                 .first(page1.isFirst())
                 .empty(page1.isEmpty())
                 .build();
+    }
+
+    @Override
+    public String markFeedbackReadAndUnread(Long id) {
+        String message = null;
+        if(id==null){
+            throw new NullPointerException("Feedback id can not be null.");
+        }
+
+        Feedback feedback = feedbackRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Feedback with id " + id + " not found"));
+
+        FeedbackRead feedbackRead = feedbackReadRepository.findByFeedbackAndUser(feedback.getId(),utilities.getLoggedInUser().getId());
+        if(feedbackRead==null){
+            FeedbackRead feedbackRead1 = new FeedbackRead();
+            feedbackRead1.setFeedback(feedback);
+            feedbackRead1.setUser(utilities.getLoggedInUser());
+            feedbackReadRepository.save(feedbackRead1);
+            message = "Marked as Read";
+        }else{
+            feedbackReadRepository.deleteByFeedbackAndUser(feedback.getId(), utilities.getLoggedInUser().getId());
+            message = "Marked as Un-Read";
+        }
+
+
+
+        return message;
     }
 }

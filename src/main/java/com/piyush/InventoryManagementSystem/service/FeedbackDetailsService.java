@@ -24,4 +24,5 @@ public interface FeedbackDetailsService {
                                    String seen);
 
 
+    String markFeedbackReadAndUnread(Long id);
 }

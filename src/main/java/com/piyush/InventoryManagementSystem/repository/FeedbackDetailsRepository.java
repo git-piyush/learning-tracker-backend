@@ -37,4 +37,5 @@ public interface FeedbackDetailsRepository extends JpaRepository<FeedBackDetails
             @Param("endDate") LocalDateTime endDate,
             Pageable pageable
     );
+
 }

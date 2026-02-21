@@ -72,7 +72,7 @@ public class FeedbackController {
     }
 
     //it will return all the feedback which admin user not yet seen
-    @GetMapping("/unread-feedback")
+    @GetMapping("/all-feedback")
     public ResponseEntity<Response> getAllUserUnreadFeedback(@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE) int page,
                                                              @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size,
                                                              @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY) String orderBy,
@@ -102,5 +102,31 @@ public class FeedbackController {
                     .build());
         }
          return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/delete-feedback/{id}")
+    public ResponseEntity<Response> deteteFeedBack(@PathVariable Long id){
+
+        if(id!=null){
+            feedbackRepository.deleteById(id);
+        }
+
+        return ResponseEntity.ok(Response.builder()
+                .status(200)
+                .message("Feedback deleted successfully")
+                .build());
+    }
+
+    @GetMapping("/mark-feedback/{id}")
+    public ResponseEntity<Response> markFeedbackReadUnread(@PathVariable Long id){
+        String message = null;
+        if(id!=null){
+            message = feedbackDetailsService.markFeedbackReadAndUnread(id);
+        }
+
+        return ResponseEntity.ok(Response.builder()
+                .status(200)
+                .message(message)
+                .build());
     }
 }
