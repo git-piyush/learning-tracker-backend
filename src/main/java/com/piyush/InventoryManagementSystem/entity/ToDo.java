@@ -2,7 +2,6 @@ package com.piyush.InventoryManagementSystem.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,36 +17,20 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "tbl_question")
-public class Question {
-
+@Table(name = "tbl_todo")
+public class ToDo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String category;
+    private String completed;
 
-    private String subCategory;
-
-    private String type;
-
-    @NotBlank(message = "Name is required")
-    private String question;
-
-    @Column(length = 4000)
-    private String answer;
-
-    private String bookmark;
-
-    private String level;
+    private String task;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id") // foreign key column in Todo table
     private User user;
-
-    @Lob
-    private byte[] image;
 
     private Date createdDate;
 
@@ -74,5 +57,4 @@ public class Question {
             this.createdBy = userName;
         }
     }
-
 }

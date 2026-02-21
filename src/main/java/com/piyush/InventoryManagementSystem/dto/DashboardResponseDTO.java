@@ -1,7 +1,9 @@
 package com.piyush.InventoryManagementSystem.dto;
 
+import com.piyush.InventoryManagementSystem.entity.ToDo;
 import lombok.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -17,6 +19,8 @@ public class DashboardResponseDTO {
       private Long userBookmarked;
 
       private Map<String, Long> countMap;
+
+      private List<ToDo> toDoList;
 
       private Long unreadFeedBackCount;
 //

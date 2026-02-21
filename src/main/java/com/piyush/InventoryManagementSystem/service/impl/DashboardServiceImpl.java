@@ -4,8 +4,10 @@ import com.piyush.InventoryManagementSystem.dto.DashboardResponseDTO;
 import com.piyush.InventoryManagementSystem.entity.Dashboard;
 import com.piyush.InventoryManagementSystem.entity.FeedBackDetails;
 import com.piyush.InventoryManagementSystem.entity.Question;
+import com.piyush.InventoryManagementSystem.entity.ToDo;
 import com.piyush.InventoryManagementSystem.repository.DashboardRepository;
 import com.piyush.InventoryManagementSystem.repository.QuestionRepository;
+import com.piyush.InventoryManagementSystem.repository.TodoRepository;
 import com.piyush.InventoryManagementSystem.service.DashboardService;
 import com.piyush.InventoryManagementSystem.service.FeedBackService;
 import com.piyush.InventoryManagementSystem.service.FeedbackDetailsService;
@@ -35,6 +37,9 @@ public class DashboardServiceImpl implements DashboardService {
     @Autowired
     private UserUtility utility;
 
+    @Autowired
+    private TodoRepository todoRepository;
+
     @Override
     public DashboardResponseDTO getDashboardData() {
         Long questionCount = questionRepository.countByCreatedBy(utility.getLoggedInUser().getEmail());
@@ -59,6 +64,8 @@ public class DashboardServiceImpl implements DashboardService {
                 bookMarked,
                 countMap,unreadCount);
 
+        List<ToDo> toDoList = todoRepository.findByUserId(utility.getLoggedInUser().getId());
+        dashboardResponseDTO.setToDoList(toDoList);
         return dashboardResponseDTO;
     }
 }

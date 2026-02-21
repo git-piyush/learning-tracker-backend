@@ -1,5 +1,6 @@
 package com.piyush.InventoryManagementSystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.piyush.InventoryManagementSystem.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -9,7 +10,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -46,6 +49,11 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<FeedbackRead> feedbackReads = new HashSet<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ToDo> todos = new ArrayList<>();
+
 
     @Override
     public String toString() {

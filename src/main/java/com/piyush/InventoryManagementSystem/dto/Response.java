@@ -3,6 +3,7 @@ package com.piyush.InventoryManagementSystem.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.piyush.InventoryManagementSystem.entity.FeedBackDetails;
 import com.piyush.InventoryManagementSystem.entity.Question;
+import com.piyush.InventoryManagementSystem.entity.ToDo;
 import com.piyush.InventoryManagementSystem.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,8 +55,9 @@ public class Response {
     private List<Question> questionList;
 
     private List<FeedbackResponse> feedbackResponse;
-
     private List<FeedBackDetails> feedBackDetails;
+
+    private List<ToDo> toDoList;
 
     private LocalDateTime timestamp = LocalDateTime.now();
 
