@@ -7,12 +7,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface QuestionService {
     Response saveQuestion(Question question, MultipartFile file) throws IOException;
+
     Response updateQuestion(Question question);
+
     List<Question> getAllUserQuestion(String userEmail);
+
     Question getQuestionById(Long id);
+
     Response deleteQuestion(Long id);
+
+    public Map<String, Long> getDailyQuestionCountForCurrentMonth();
 }

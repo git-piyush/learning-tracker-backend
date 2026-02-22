@@ -11,10 +11,12 @@ import com.piyush.InventoryManagementSystem.repository.TodoRepository;
 import com.piyush.InventoryManagementSystem.service.DashboardService;
 import com.piyush.InventoryManagementSystem.service.FeedBackService;
 import com.piyush.InventoryManagementSystem.service.FeedbackDetailsService;
+import com.piyush.InventoryManagementSystem.service.QuestionService;
 import com.piyush.InventoryManagementSystem.utility.UserUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,6 +32,9 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Autowired
     private FeedBackService feedBackService;
+
+    @Autowired
+    private QuestionService questionService;
 
     @Autowired
     private FeedbackDetailsService feedbackDetailsService;
@@ -56,16 +61,27 @@ public class DashboardServiceImpl implements DashboardService {
                         Collectors.counting()       // value = count of each subCategory
                 ));
 
+        //Total Questions: present in dashboard
         List<FeedBackDetails> feedBackDetailsList = feedbackDetailsService.getUnreadFeedbackByUser(utility.getLoggedInUser().getId());
+
         Long unreadCount = (long) feedBackDetailsList.size();
+
         DashboardResponseDTO dashboardResponseDTO = new DashboardResponseDTO(dashboard.getId(),
                 dashboard.getTotalquestions(),
                 questionCount,
                 bookMarked,
                 countMap,unreadCount);
 
+        //Add Your Activities & Events:- Dashboard section Data
         List<ToDo> toDoList = todoRepository.findByUserId(utility.getLoggedInUser().getId());
         dashboardResponseDTO.setToDoList(toDoList);
+
+        Map<String, Long> dailyQuestionCountMap = new HashMap<>();
+
+        dailyQuestionCountMap = questionService.getDailyQuestionCountForCurrentMonth();
+
+        dashboardResponseDTO.setDailyQuestionCountMap(dailyQuestionCountMap);
+
         return dashboardResponseDTO;
     }
 }

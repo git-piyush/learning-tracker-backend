@@ -49,6 +49,7 @@ public class Question {
     @Lob
     private byte[] image;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
     private String createdBy;
